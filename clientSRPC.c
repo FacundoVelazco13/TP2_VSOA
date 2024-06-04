@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
+#include "fileOp.h"
+
 #define IP_ADDR_SIZE 16
 #define USER_SIZE 32
 #define PASS_SIZE 32
@@ -30,6 +32,8 @@ int gestorParametros(int argc, char *argv[],char* ip_address,credencial* credenc
 int gestorConexion(char* ip_address);
 
 void imprimirEjemplos();
+
+void fileop_1(char host[],char token[],char content[]);
 
 int main(int argc, char *argv[]) {
     int opt;
@@ -64,6 +68,11 @@ int main(int argc, char *argv[]) {
     //Caso utilizacion de procedimiento remoto
     else if (opt == WRITE_CONS){
         printf("Voy a usar rcp \n");
+        //Por ahora solo existe una opcion
+        if(strcmp(option,"w")==0){
+            fileop_1(ip_address,token,content);
+            printf("escribi en un archivo remoto \n");
+        }
     }
     return EXIT_SUCCESS;
 }
@@ -147,4 +156,25 @@ void imprimirEjemplos(){
     printf("Los parametros del programa deben tener la siguiente forma : \n");
     printf("clientSRPC -a <ip contenedor servidor> -u <usuario> -p <contraseña> \n");
     printf("clientSRPC -a <ip contenedor servidor> -t <token> -o <opción> -c <contenido> \n");
+}
+
+void fileop_1(char host[],char token[],char content[]){
+	CLIENT *clnt;
+	int  *result_1;
+	write_parameters  escribir_1_arg;
+
+	clnt = clnt_create (host, fileOp, version1, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror (host);
+		exit (1);
+	}
+
+    strcpy(escribir_1_arg.token,token);
+    strcpy(escribir_1_arg.contenido,content);
+
+	result_1 = escribir_1(&escribir_1_arg, clnt);
+	if (result_1 == (int *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+	clnt_destroy (clnt);
 }
