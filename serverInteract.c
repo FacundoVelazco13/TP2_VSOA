@@ -19,13 +19,29 @@ int* escribir_1_svc(write_parameters *argp, struct svc_req *rqstp){
 
 	if(strcmp(local_token,argp->token)==0){
 		printf("token valido receiv \n");
+		FILE *file = fopen("target.txt", "a");
+    	if (file == NULL) {
+        	perror("Error al abrir el archivo");
+        	result = -1;
+			return &result;
+    	}
+		// Escribir en el archivo
+		fprintf(file,argp->contenido);
+    	fprintf(file,"\n");
+
+    	// Cerrar el archivo
+    	if (fclose(file) != 0) {
+        	perror("Error al cerrar el archivo");
+        	result = -1;
+			return &result;
+    	}
+
+    	printf("Archivo escrito exitosamente.\n");
+		result = 0;
 	}else{
 		printf("token invalido \n");
+		result = -1;
 	}
-	
-	
-	//////////////////////&&&&&&&&
-	//escribir el archivo y retornar un exit_sucsess or exit_failure. y termino todo
 	return &result;
 }
 

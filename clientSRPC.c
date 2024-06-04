@@ -33,7 +33,7 @@ int gestorConexion(char* ip_address);
 
 void imprimirEjemplos();
 
-void fileop_1(char host[],char token[],char content[]);
+int* fileop_1(char host[],char token[],char content[]);
 
 int main(int argc, char *argv[]) {
     int opt;
@@ -49,7 +49,6 @@ int main(int argc, char *argv[]) {
     }
     //Caso auth y recibimiento del token
     if(opt == AUTH_CONS){
-        printf("Voy a usar sockets \n");
         int client_fd, valread;
         char token[TOKEN_BUFFER_SIZE] = {" "};
         
@@ -67,11 +66,13 @@ int main(int argc, char *argv[]) {
     }
     //Caso utilizacion de procedimiento remoto
     else if (opt == WRITE_CONS){
-        printf("Voy a usar rcp \n");
         //Por ahora solo existe una opcion
         if(strcmp(option,"w")==0){
-            fileop_1(ip_address,token,content);
-            printf("escribi en un archivo remoto \n");
+            if(*fileop_1(ip_address,token,content)==0){
+                printf("Archivo remoto escrito \n");
+            }else{
+                printf("Token invalido o problema del servidor \n");
+            }
         }
     }
     return EXIT_SUCCESS;
@@ -158,7 +159,7 @@ void imprimirEjemplos(){
     printf("clientSRPC -a <ip contenedor servidor> -t <token> -o <opción> -c <contenido> \n");
 }
 
-void fileop_1(char host[],char token[],char content[]){
+int* fileop_1(char host[],char token[],char content[]){
 	CLIENT *clnt;
 	int  *result_1;
 	write_parameters  escribir_1_arg;
@@ -177,4 +178,5 @@ void fileop_1(char host[],char token[],char content[]){
 		clnt_perror (clnt, "call failed");
 	}
 	clnt_destroy (clnt);
+    return result_1;
 }

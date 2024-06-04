@@ -58,30 +58,26 @@ int main(int argc, char *argv[]) {
         perror("listen");
         exit(EXIT_FAILURE);
     }
-    if ((new_socket = accept(server_fd, (struct sockaddr*)&address,(socklen_t*)&addrlen))< 0) {
+    while (1) {
+        if ((new_socket = accept(server_fd, (struct sockaddr*)&address,(socklen_t*)&addrlen))< 0) {
         perror("accept");
         exit(EXIT_FAILURE);
+        }
+        credencial credencial;
+        valread = read(new_socket, &credencial, sizeof(credencial));
+        
+        if(autenticarUsuario(credencial)==1){
+            char token[TOKEN_BUFFER_SIZE] = {" "};
+            getToken(token); 
+            send(new_socket,token, strlen(token), 0);
+            printf("Token enviado \n");
+        }else{
+            send(new_socket, inv_user, strlen(inv_user), 0);
+            printf("Usuario invalido \n");
+        }
+        close(new_socket);
     }
-
-    credencial credencial;
-
-    valread = read(new_socket, &credencial, sizeof(credencial));
-    
-    if(autenticarUsuario(credencial)==1){
-        char token[TOKEN_BUFFER_SIZE] = {" "};
-        getToken(token); 
-        send(new_socket,token, strlen(token), 0);
-        printf("Token enviado \n");
-    }else{
-        send(new_socket, inv_user, strlen(inv_user), 0);
-        printf("Usuario invalido \n");
-    }
-    
-    // closing the connected socket
-    close(new_socket);
-    // closing the listening socket
     shutdown(server_fd, SHUT_RDWR);
-
     return 0;   
 }
 
