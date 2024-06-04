@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     if(opt == AUTH_CONS){
         printf("Voy a usar sockets \n");
         int client_fd, valread;
-        char token[TOKEN_BUFFER_SIZE];
+        char token[TOKEN_BUFFER_SIZE] = {" "};
         
         if((client_fd = gestorConexion(ip_address)) == -1){
             printf("Error de conexión \n");
