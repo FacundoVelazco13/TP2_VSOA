@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
         printf("TOKEN : ");
         printf("%s \n",token);
         close(client_fd);
+        
     }
     //Caso utilizacion de procedimiento remoto
     else if (opt == WRITE_CONS){
