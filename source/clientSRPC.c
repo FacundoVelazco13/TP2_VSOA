@@ -88,32 +88,26 @@ int gestorParametros(int argc, char *argv[],char* ip_address,credencial* credenc
             case 'a':
                 opta = 1;
                 strcpy(ip_address,optarg);
-                printf("Opción a encontrada : %s \n",optarg);
                 break;
             case 'u':
                 optu = 1;
                 strcpy(credencial->user,optarg);
-                printf("Opción encontrada : %s \n",optarg);
                 break;
             case 'p':
                 optp = 1;
                 strcpy(credencial->pass,optarg);
-                printf("Opción encontrada : %s \n",optarg);
                 break;
             case 't':
                 optt = 1;
                 strcpy(token,optarg);
-                printf("Opción encontrada : %s \n",optarg);
                 break;
             case 'o':
                 opto = 1;
                 strcpy(option,optarg);
-                printf("Opción encontrada : %s \n",optarg);
                 break;
             case 'c':
                 optc = 1;
                 strcpy(content,optarg);
-                printf("Opción encontrada : %s \n",optarg);
                 break;
             case '?':
                 return -1;
