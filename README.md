@@ -8,7 +8,7 @@ Dentro del directorio *ejecutables* se encuentran las carpetas :
 #### servAuth
 #### servInteract
 
-cada carpeta guarda un ejecutable y los archivos necesarios, en los ultimos dos casos.
+cada carpeta guarda un ejecutable y los archivos necesarios.
 
 Se puede copiar cada directorio dentro de un container y realizar pruebas.
 
@@ -19,3 +19,5 @@ Ejemplo auth (local) : ./clientSRPC -a 127.0.0.1 -u FacundoVelazco -p facu123
 Ejemplo rpc (local) : ./clientSRPC -a localhost -t token123 -o w -c "un contenidooo"
 
 //*Cambiar la ip, como en el caso anterior, la opcion w (write) es la unica que hay*
+
+## El codigo fuente se encuentra en *source*.
